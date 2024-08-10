@@ -33,8 +33,6 @@ Resources:
       Url: https://token.actions.githubusercontent.com
       ClientIdList: 
         - sts.amazonaws.com
-      ThumbprintList:
-        - ffffffffffffffffffffffffffffffffffffffff
 
 Outputs:
   Role:
