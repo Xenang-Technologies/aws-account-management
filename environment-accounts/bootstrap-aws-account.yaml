@@ -13,6 +13,7 @@ Resources:
   DeployRole:
     Type: AWS::IAM::Role
     Properties:
+      RoleName: deploy
       AssumeRolePolicyDocument:
         Statement:
           - Effect: Allow
@@ -32,9 +33,9 @@ Resources:
       PolicyDocument:
         Version: "2012-10-17"
         Statement: [
-          {"Effect":"Allow","Action":["iam:GetRole","iam:PassRole","iam:DeleteRole","iam:PutRolePolicy","iam:DeleteRolePolicy","iam:CreateRole","iam:CreateServiceLinkedRole","iam:AttachRolePolicy","iam:DetachRolePolicy","iam:UpdateAssumeRolePolicy","iam:RemoveRoleFromInstanceProfile","iam:RemoveRoleFromInstanceProfile","iam:AddRoleToInstanceProfile","iam:DeleteInstanceProfile","iam:CreateInstanceProfile","iam:UpdateInstanceProfile","iam:TagRole","iam:UntagRole"],"Resource":"arn:aws:iam::${AWS::AccountId}:role/*"},
-          {"Effect":"Allow","Action":["iam:*"],"Resource":"arn:aws:iam::${AWS::AccountId}:instance-profile/*"},
-          {"Effect":"Allow","Action":["*"],"Resource":"arn:aws:iam::${AWS::AccountId}:group/*"},
+          {"Effect":"Allow","Action":["iam:GetRole","iam:PassRole","iam:DeleteRole","iam:PutRolePolicy","iam:DeleteRolePolicy","iam:CreateRole","iam:CreateServiceLinkedRole","iam:AttachRolePolicy","iam:DetachRolePolicy","iam:UpdateAssumeRolePolicy","iam:RemoveRoleFromInstanceProfile","iam:RemoveRoleFromInstanceProfile","iam:AddRoleToInstanceProfile","iam:DeleteInstanceProfile","iam:CreateInstanceProfile","iam:UpdateInstanceProfile","iam:TagRole","iam:UntagRole"],"Resource": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/*"}},
+          {"Effect":"Allow","Action":["iam:*"],"Resource": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:instance-profile/*"}},
+          {"Effect":"Allow","Action":["*"],"Resource": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:group/*"}},
           {"Effect":"Allow","Action":["ecr:*"],"Resource":"*"},
           {"Effect":"Allow","Action":["ecs:*"],"Resource":"*"},
           {"Effect":"Allow","Action":["logs:*"],"Resource":"*"},
@@ -56,6 +57,8 @@ Resources:
       Url: https://token.actions.githubusercontent.com
       ClientIdList:
         - sts.amazonaws.com
+      ThumbprintList:
+        - ffffffffffffffffffffffffffffffffffffffff
 Outputs:
   Role:
-    Value: !GetAtt Role.Arn
+    Value: !GetAtt DeployRole.Arn
