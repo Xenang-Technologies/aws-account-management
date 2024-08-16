@@ -46,7 +46,8 @@ Resources:
           {"Effect":"Allow","Action":["sqs:*"],"Resource":"*"},
           {"Effect":"Allow","Action":["autoscaling:*"],"Resource":"*"},
           {"Effect":"Allow","Action":["s3:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["ses:*"],"Resource":"*"}
+          {"Effect":"Allow","Action":["ses:*"],"Resource":"*"},
+          {"Effect":"Allow","Action":["cloudformation:*"],"Resource":"*"}
         ]
         
       Roles:
