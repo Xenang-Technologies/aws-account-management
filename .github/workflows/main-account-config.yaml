@@ -27,5 +27,14 @@ jobs:
       # Print current loged in user
       - name: Print username
         run: |
-          echo "==> Checking current user name "
+          cf_template_file='./account-configuration/main-account.yaml'
+          stack_name='main-account-configuration'
+
           aws sts get-caller-identity
+          
+          aws cloudformation deploy \
+            --template-file "$cf_template_file" \
+            --stack-name "$stack_name"  \
+            --parameter-overrides \
+            --no-fail-on-empty-changeset \
+            --capabilities CAPABILITY_NAMED_IAM

@@ -1,0 +1,70 @@
+Parameters:
+Resources:
+  AdminGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: admins
+
+  DevGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: devs
+
+      ## Admins Users
+  Ryan:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: ryan
+      Groups:
+        - !Ref AdminGroup
+        - !Ref DevGroup
+
+  ## Devs Users
+  Cedrick:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: cedrick
+      Groups:
+        - !Ref DevGroup
+
+  Carlson:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: carlson
+      Groups:
+        - !Ref DevGroup
+  
+  Desmond:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: desmond
+      Groups:
+        - !Ref DevGroup
+    
+  Eva:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: eva
+      Groups:
+        - !Ref DevGroup
+  
+  Gilbert:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: gilbert
+      Groups:
+        - !Ref DevGroup
+
+  Lovette:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: lovette
+      Groups:
+        - !Ref DevGroup
+
+  Rouclec:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: rouclec
+      Groups:
+        - !Ref DevGroup 
