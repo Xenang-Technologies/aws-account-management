@@ -35,6 +35,5 @@ jobs:
           aws cloudformation deploy \
             --template-file "$cf_template_file" \
             --stack-name "$stack_name"  \
-            --parameter-overrides \
             --no-fail-on-empty-changeset \
             --capabilities CAPABILITY_NAMED_IAM
