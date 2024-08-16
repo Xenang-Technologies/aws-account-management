@@ -1,0 +1,31 @@
+name: Test CI Workflow
+
+on:
+  push:
+    branches: [ "main" ]
+
+# Necessary permissions for workflow
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  S3BucketIntegration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      # Install awscli
+      - uses: unfor19/install-aws-cli-action@v1
+      
+      # Assume the OIDC Role to get temporary credentials 
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::842675981834:role/deploy
+  
+      # Print current loged in user
+      - name: Print username
+        run: |
+          echo "==> Checking current user name "
+          aws sts get-caller-identity
