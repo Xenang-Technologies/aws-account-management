@@ -26,6 +26,17 @@ Resources:
                 token.actions.githubusercontent.com:aud: !Ref OIDCAudience
               StringLike:
                 token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOrgUser}/${RepositoryName}:*
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonS3FullAccess
+        - arn:aws:iam::aws:policy/AWSCloudFormationFullAccess
+        - arn:aws:iam::aws:policy/AmazonVPCFullAccess
+        - arn:aws:iam::aws:policy/AmazonRDSFullAccess
+        - arn:aws:iam::aws:policy/AWSLambda_FullAccess
+        - arn:aws:iam::aws:policy/SecretsManagerReadWrite
+        - arn:aws:iam::aws:policy/AmazonAPIGatewayAdministrator
+        - arn:aws:iam::aws:policy/AmazonRoute53FullAccess
+        - arn:aws:iam::aws:policy/AWSCertificateManagerFullAccess
+        - arn:aws:iam::aws:policy/CloudFrontFullAccess
   DeployRolePolicies:
     Type: "AWS::IAM::Policy"
     Properties:
@@ -33,7 +44,32 @@ Resources:
       PolicyDocument:
         Version: "2012-10-17"
         Statement: [
-          {"Effect":"Allow","Action":["iam:GetRole","iam:PassRole","iam:DeleteRole","iam:PutRolePolicy","iam:DeleteRolePolicy","iam:CreateRole","iam:CreateServiceLinkedRole","iam:AttachRolePolicy","iam:DetachRolePolicy","iam:UpdateAssumeRolePolicy","iam:RemoveRoleFromInstanceProfile","iam:RemoveRoleFromInstanceProfile","iam:AddRoleToInstanceProfile","iam:DeleteInstanceProfile","iam:CreateInstanceProfile","iam:UpdateInstanceProfile","iam:TagRole","iam:UntagRole"],"Resource": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/*"}},
+          {"Effect":"Allow","Action":[
+            "iam:GetRole",
+            "iam:PassRole",
+            "iam:DeleteRole",
+            "iam:PutRolePolicy",
+            "iam:DeleteRolePolicy",
+            "iam:CreateRole",
+            "iam:CreateServiceLinkedRole",
+            "iam:AttachRolePolicy",
+            "iam:DetachRolePolicy",
+            "iam:UpdateAssumeRolePolicy",
+            "iam:RemoveRoleFromInstanceProfile",
+            "iam:RemoveRoleFromInstanceProfile",
+            "iam:AddRoleToInstanceProfile",
+            "iam:DeleteInstanceProfile",
+            "iam:CreateInstanceProfile",
+            "iam:UpdateInstanceProfile",
+            "iam:TagRole",
+            "iam:UntagRole",
+            "iam:GetUser",
+            "iam:CreateUser",
+            "iam:ListAccessKeys"
+            ],"Resource": [
+              { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/*"},
+              { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:user/*"}
+        ]},
           {"Effect":"Allow","Action":["iam:*"],"Resource": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:instance-profile/*"}},
           {"Effect":"Allow","Action":["*"],"Resource": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:group/*"}},
           {"Effect":"Allow","Action":["ecr:*"],"Resource":"*"},
@@ -49,6 +85,7 @@ Resources:
           {"Effect":"Allow","Action":["ses:*"],"Resource":"*"},
           {"Effect":"Allow","Action":["cloudformation:*"],"Resource":"*"}
         ]
+
         
       Roles:
         - Ref: "DeployRole"
