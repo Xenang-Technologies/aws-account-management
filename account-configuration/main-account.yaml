@@ -10,7 +10,10 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: 'sts:AssumeRole'
-                Resource: 'arn:aws:iam::*:role/admin'
+                Resource: 
+                  - 'arn:aws:iam::*:role/admin'
+                  - 'arn:aws:iam::*:role/deploy'
+                  - 'arn:aws:iam::*:role/ci'
 
   DevGroup:
     Type: AWS::IAM::Group
@@ -23,7 +26,9 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: 'sts:AssumeRole'
-                Resource: 'arn:aws:iam::*:role/dev'
+                Resource: 
+                  - 'arn:aws:iam::*:role/dev'
+                  - 'arn:aws:iam::*:role/deploy'
 
 ## Admins Users
   Ryan:
