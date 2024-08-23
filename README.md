@@ -22,6 +22,9 @@
   * Dev account (also the artifacts account)
     * email: admin+aws.cliqkets.dev@iknite.studio
     * account id: 908027382967
+* Itamba (all environments and resources)
+  * account id: 208552340011
+  * email: -
 
 
 ## Logging into the AWS dashboard
