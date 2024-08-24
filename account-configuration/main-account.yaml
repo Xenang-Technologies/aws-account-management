@@ -81,3 +81,9 @@ Resources:
       UserName: rouclec
       Groups:
         - !Ref DevGroup
+  Kelly:
+  Type: AWS::IAM::User
+  Properties:
+    UserName: kelly
+    Groups:
+      - !Ref DevGroup      
