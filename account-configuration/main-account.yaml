@@ -86,4 +86,11 @@ Resources:
     Properties:
       UserName: kellypride
       Groups:
-        - !Ref DevGroup      
+        - !Ref DevGroup
+  Ebot:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: ebot
+      Groups:
+        - !Ref DevGroup
+        
