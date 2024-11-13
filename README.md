@@ -8,6 +8,8 @@
 * /account-configuration
   * These files are for configuring the main AWS account. They contain cloudformation templates that are applied on commits to main.
 
+# Managing users
+IAM users and groups are configured via Cloudformation in this file, `account-configuration/main-account.yaml`. We have two groups that users can be added to: `dev` and `admin`. After a user is added to this file for the first time, an admin user will need to log into the AWS console to generate some creds for the user.
 
 # Current AWS Accounts
 
