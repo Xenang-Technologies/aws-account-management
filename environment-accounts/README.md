@@ -10,6 +10,7 @@ When creating a new AWS account there will be a few manual steps that will need 
 1. Run the bootstrap-aws-account.yaml Cloudformation template manually from the AWS console. (https://github.com/Iknite-Space/aws-account-management/tree/main/environment-accounts)
 1. Update the environments.yaml in the project repo to include this new environment account and set the account number
 1. Add the new account id to the README.md in this repo.
+1. [Activate access to the Billing and Cost Management console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/control-access-billing.html#ControllingAccessWebsite-Activate])
 
 The bootstrap Cloudformation template should create a CI role and grant access to this role for Github Actions for the project repository. This CI role should have permissions to deploy the entire environment into the account.
 
