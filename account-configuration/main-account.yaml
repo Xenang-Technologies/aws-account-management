@@ -30,6 +30,20 @@ Resources:
                   - 'arn:aws:iam::*:role/dev'
                   - 'arn:aws:iam::*:role/deploy'
 
+  FinanceGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: finance
+      Policies:
+        - PolicyName: AssumeRoleIntoEnvironments
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'sts:AssumeRole'
+                Resource: 
+                  - 'arn:aws:iam::*:role/billing'
+
 ## Admins Users
   Ryan:
     Type: AWS::IAM::User
@@ -93,4 +107,20 @@ Resources:
       UserName: ebot
       Groups:
         - !Ref DevGroup
+
+  ## Finance Team
+  Sharon:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: sharon
+      Groups:
+        - !Ref FinanceGroup
+        
+  Mirabel:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: mirabel
+      Groups:
+        - !Ref FinanceGroup
+        
         
