@@ -1,0 +1,86 @@
+AWSTemplateFormatVersion: 2010-09-09
+Transform: "AWS::LanguageExtensions"
+
+Parameters:
+  EnvironmentAccountIds:
+    Type: List<String>
+    Description: List of account ids for the environment accounts
+
+  ## This is less of an input and more of a variable that we can use in the template
+  EcrRepositoryNames:
+    Type: List<String>
+    Description: A comma (,) separated list of ECR repository names to create
+
+Resources:
+  "Fn::ForEach::ResourcesEcrRepository":
+    - EcrRepositoryName
+    - !Ref "EcrRepositoryNames"
+    - "EcrRepository${EcrRepositoryName}":
+        Type: "AWS::ECR::Repository"
+        Properties:
+          RepositoryName: !Ref EcrRepositoryName
+
+  ## This is a cross-account policy that allows the environment accounts to access the ECR repositories
+  CrossAccountRegistryPolicy:
+    Type: "AWS::ECR::RegistryPolicy"
+    Properties:
+      PolicyText:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: UpdatedRegistryPolicy
+            Effect: Allow
+            Principal:
+              AWS:
+                !Split [
+                  ",",
+                  !Join [
+                    "",
+                    [
+                      "arn:aws:iam::",
+                      !Join [
+                        ":root,arn:aws:iam::",
+                        !Ref "EnvironmentAccountIds",
+                      ],
+                      ":root",
+                    ],
+                  ],
+                ]
+            Action: "ecr:*"
+            Resource: !Sub "arn:aws:ecr:${AWS::Region}:${AWS::AccountId}:repository/*"
+
+  InfraArtifactsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Join ["-", ["infra-artifacts", !Ref "AWS::AccountId"]]
+
+  InfraArtifactsBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref InfraArtifactsBucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - "s3:GetObject"
+              - "s3:ListBucket"
+            Effect: Allow
+            Resource:
+              - !Sub "arn:aws:s3:::${InfraArtifactsBucket}/*"
+              - !Sub "arn:aws:s3:::${InfraArtifactsBucket}"
+            Principal:
+              AWS: !Ref "EnvironmentAccountIds"
+
+## Output Values
+Outputs:
+  InfraArtifactsBucket:
+    Description: Artifact Bucket
+    Value: !Ref "InfraArtifactsBucket"
+
+  "Fn::ForEach::OutputsEcrRepository":
+    - EcrRepositoryName
+    - !Ref "EcrRepositoryNames"
+    - "EcrRepository${EcrRepositoryName}Arn":
+        Description: ECR Repository Arn
+        Value: !GetAtt
+          - !Sub "EcrRepository${EcrRepositoryName}"
+          - "Arn"

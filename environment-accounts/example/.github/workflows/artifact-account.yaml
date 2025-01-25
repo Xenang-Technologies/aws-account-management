@@ -1,10 +1,13 @@
-name: AWS Artifact Account Setup
-## This workflow will setup and configure the "Artifact AWS Account". This acocunt
+name: Artifact Account Setup
+## This workflow will setup and configure the "Artifact AWS Account". This account
 # holds all build artifacts for the application.
 
 on:
   push:
     branches: [ "main" ]
+    paths: 
+      - "cd/artifact-account/**"
+      - ".github/workflows/artifact-account.yaml"
 
 # Necessary permissions for workflow
 permissions:
@@ -29,7 +32,7 @@ jobs:
       - name: Read the account id of the Artifact account
         id: read_artifact_account_id
         run: |
-          ARTIFACT_ACCOUNT_ID=$(yq eval '.aws_account_id' cd/artifact-account-config.yaml)
+          ARTIFACT_ACCOUNT_ID=$(yq eval '.aws_account_id' cd/artifact-account/config.yaml)
           # Set the value as an output
           echo "::set-output name=artifact_account_id::$ARTIFACT_ACCOUNT_ID"
 
@@ -44,18 +47,15 @@ jobs:
         env:
           GIT_REPOSITORY_NAME: ${{ github.repository }}
         run: |
-          cf_template_file='./cd/cloudformation/artifact-account.yaml'
+          cf_template_file='./cd/artifact-account/cloudformation-template.yaml'
           stack_name='artifact-account-setup'
           ECR_REPOSITORY_NAME=$(echo "$GIT_REPOSITORY_NAME" | tr '[:upper:]' '[:lower:]')
+          environment_account_ids=$(yq e -o csv  '.environment_account_ids' cd/artifact-account/config.yaml)
 
           aws sts get-caller-identity
           
-          aws cloudformation deploy \
-            --template-file "$cf_template_file" \
-            --parameter-overrides \
-              RepoName="$ECR_REPOSITORY_NAME" \
-            --stack-name "$stack_name"  \
-            --no-fail-on-empty-changeset
+          echo aws cloudformation deploy --template-file "$cf_template_file" --parameter-overrides EnvironmentAccountIds="$environment_account_ids" --stack-name "$stack_name"  --no-fail-on-empty-changeset
+          aws cloudformation deploy --template-file "$cf_template_file" --parameter-overrides EnvironmentAccountIds="$environment_account_ids" --stack-name "$stack_name"  --no-fail-on-empty-changeset
 
 
 

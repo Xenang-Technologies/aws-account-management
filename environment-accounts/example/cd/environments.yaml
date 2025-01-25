@@ -1,0 +1,15 @@
+# Update this information with your
+# project environment settings
+
+- envId: dev
+  name: Development
+  gitRefName: main
+  awsAccountId: 557690596244
+  domainName: vsorpaydev.xyz
+  
+- envId: testing
+  name: Testing
+  gitRefName: release/testing/v2
+  awsAccountId: 597088027552
+  domainName: vsorpaytesting.xyz 
+
