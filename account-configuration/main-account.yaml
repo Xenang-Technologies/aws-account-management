@@ -108,6 +108,20 @@ Resources:
       Groups:
         - !Ref DevGroup
 
+  Justene:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: justene
+      Groups:
+        - !Ref DevGroup
+
+  Indah:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: indah
+      Groups:
+        - !Ref DevGroup
+
   ## Finance Team
   Sharon:
     Type: AWS::IAM::User
