@@ -74,8 +74,14 @@ Resources:
             "iam:TagRole",
             "iam:UntagRole",
             "iam:GetUser",
+            "iam:TagUser",
+            "iam:UntagUser",
+            "iam:DeleteUserPolicy",
             "iam:CreateUser",
-            "iam:ListAccessKeys"
+            "iam:PutUserPolicy",
+            "iam:DeleteUser",
+            "iam:ListAccessKeys",
+            "iam:CreateAccessKey"
             ],"Resource": [
               { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/*"},
               { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:user/*"}
@@ -95,7 +101,7 @@ Resources:
           {"Effect":"Allow","Action":["s3:*"],"Resource":"*"},
           {"Effect":"Allow","Action":["ses:*"],"Resource":"*"},
           {"Effect":"Allow","Action":["events:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["cloudformation:*"],"Resource":"*"}
+          {"Effect":"Allow","Action":["cloudformation:*"],"Resource":"*"},
           {"Effect":"Allow","Action":["elasticfilesystem:*"],"Resource":"*"}
         ]
 
@@ -144,6 +150,10 @@ Resources:
             "iam:DeleteRole",
             "iam:PutRolePolicy",
             "iam:DeleteRolePolicy",
+            "iam:DeleteUserPolicy",
+            "iam:PutUserPolicy",
+            "iam:DeleteUser",
+            "iam:CreateAccessKey",
             "iam:CreateRole",
             "iam:CreateServiceLinkedRole",
             "iam:AttachRolePolicy",
@@ -159,7 +169,8 @@ Resources:
             "iam:UntagRole",
             "iam:GetUser",
             "iam:CreateUser",
-            "iam:ListAccessKeys"
+            "iam:ListAccessKeys",
+            "iam:TagUser"
             ],"Resource": [
               { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/*"},
               { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:user/*"}
@@ -182,7 +193,9 @@ Resources:
           {"Effect":"Allow","Action":["events:*"],"Resource":"*"},
           {"Effect":"Allow","Action":["cloudformation:*"],"Resource":"*"},
           {"Effect":"Allow","Action":["ce:*"],"Resource":"*"},
-          {"Effect":"Allow", "Action":["aws-portal:ViewBilling", "aws-portal:ViewUsage"], "Resource": "*"}
+          {"Effect":"Allow", "Action":["aws-portal:ViewBilling", "aws-portal:ViewUsage"], "Resource": "*"},
+          {"Effect":"Allow","Action":["elasticfilesystem:*"],"Resource":"*"}
+
         ]
 
         
