@@ -65,12 +65,6 @@ Resources:
       UserName: carlson
       Groups:
         - !Ref DevGroup
-  Desmond:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: desmond
-      Groups:
-        - !Ref DevGroup
   Eva:
     Type: AWS::IAM::User
     Properties:
@@ -101,12 +95,6 @@ Resources:
       UserName: kellypride
       Groups:
         - !Ref DevGroup
-  Ebot:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: ebot
-      Groups:
-        - !Ref DevGroup
 
   Justene:
     Type: AWS::IAM::User
@@ -123,13 +111,6 @@ Resources:
         - !Ref DevGroup
 
   ## Finance Team
-  Sharon:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: sharon
-      Groups:
-        - !Ref FinanceGroup
-        
   Mirabel:
     Type: AWS::IAM::User
     Properties:
