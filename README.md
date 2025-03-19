@@ -38,6 +38,9 @@ IAM users and groups are configured via Cloudformation in this file, `account-co
   * Dev Account (also the artifacts account)
     * email: admin+aws.ossp.dev@iknite.studio
     * account id: 557690618326
+  * Dev2 Account
+    * email: admin+aws.ossp.dev2@iknite.studio
+    * account id: 179359595775
 
 
 ## Logging into the AWS dashboard
