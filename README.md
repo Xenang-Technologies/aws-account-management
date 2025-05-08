@@ -31,6 +31,10 @@ IAM users and groups are configured via Cloudformation in this file, `account-co
   * Artifact Acocunt
     * email: admin+aws.vsorpay.artifact@iknite.studio
     * account id: 685873929242
+  * Dev B Account
+    * email: admin+aws.vsorpay.devb@iknite.studio
+    * account id: 403395453307
+    * domain: vpayb.site
   * Dev Account
     * email: admin+aws.vsorpay.dev@iknite.studio
     * account id: 557690596244
