@@ -14,6 +14,8 @@ Resources:
                   - 'arn:aws:iam::*:role/admin'
                   - 'arn:aws:iam::*:role/deploy'
                   - 'arn:aws:iam::*:role/ci'
+                  - 'arn:aws:iam::*:role/dev'
+                  - 'arn:aws:iam::*:role/trainee'
 
   DevGroup:
     Type: AWS::IAM::Group
@@ -28,7 +30,23 @@ Resources:
                 Action: 'sts:AssumeRole'
                 Resource: 
                   - 'arn:aws:iam::*:role/dev'
+                  - 'arn:aws:iam::*:role/trainee'
                   - 'arn:aws:iam::*:role/deploy'
+
+  TraineeGroup:
+    Type: AWS::IAM::Group
+    Properties:
+      GroupName: trainees
+      Policies:
+        - PolicyName: AssumeRoleIntoEnvironments
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'sts:AssumeRole'
+                Resource: 
+                  - 'arn:aws:iam::*:role/trainee'
+
 
   FinanceGroup:
     Type: AWS::IAM::Group
@@ -52,6 +70,7 @@ Resources:
       Groups:
         - !Ref AdminGroup
         - !Ref DevGroup
+
   ## Devs Users
   Cedrick:
     Type: AWS::IAM::User
@@ -89,12 +108,6 @@ Resources:
       UserName: rouclec
       Groups:
         - !Ref DevGroup
-  Kellypride:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: kellypride
-      Groups:
-        - !Ref DevGroup
 
   Justene:
     Type: AWS::IAM::User
@@ -109,6 +122,70 @@ Resources:
       UserName: indah
       Groups:
         - !Ref DevGroup
+
+## Trainees Users
+  Sedrick:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: sedrick
+      Groups:
+        - !Ref TraineeGroup
+
+  Precious:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: precious
+      Groups:
+        - !Ref TraineeGroup
+
+  Henry:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: henry
+      Groups:
+        - !Ref TraineeGroup
+
+  Estella:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: estella
+      Groups:
+        - !Ref TraineeGroup
+
+  Docine:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: docine
+      Groups:
+        - !Ref TraineeGroup
+
+  Brandon:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: brandon
+      Groups:
+        - !Ref TraineeGroup
+
+  Florent:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: florent
+      Groups:
+        - !Ref TraineeGroup
+
+  Robert:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: robert
+      Groups:
+        - !Ref TraineeGroup
+
+  Tonny:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: tonny
+      Groups:
+        - !Ref TraineeGroup
 
   ## Finance Team
   Mirabel:
