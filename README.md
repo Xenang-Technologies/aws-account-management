@@ -57,6 +57,16 @@ IAM users and groups are configured via Cloudformation in this file, `account-co
   * Artifact Environment
     * email: admin+aws.ossp.artifact@iknite.studio
     * account id: 420136252572
+* Iknite Space C4 Projects
+  * Cribconnect
+    * email: aws.c4.cribconnect@iknite.studio
+     * acocunt id: 761526718406
+  * Queue Less
+    * email: aws.c4.queueless@iknite.studio
+    * account id: 957877467588
+  * Link Auto
+    * email: aws.c4.linkauto@iknite.studio
+    * account id: 692780722152
 
 
 ## Logging into the AWS dashboard
