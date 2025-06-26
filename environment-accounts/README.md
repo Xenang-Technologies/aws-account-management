@@ -20,3 +20,29 @@ When bootstrapping a new project you'll want to configure the artifact account a
 1. Copy the contents of the `example` directory into your project repo.
 1. Update the `artifact-account-config.yaml` file with the AWS account id of the account your just created above.
 1. Update the `cd/cloudformation/artifact-account.yaml`. This Cloudformation template provisions the required resources to store build artifacts for a project. The example Cloudformation template creates a ERC repository and a s3 bucket.
+1. Request SES production access if sending email vis SES. See a template below.
+
+
+### AWS SES production access request template
+Note: This template is a work in progress. Please update it if you get feedback from AWS when requesting production access.
+> Hello,
+>
+> Thank you for your response.
+> 
+> We are requesting production access to Amazon SES for the sole purpose of sending One-Time Passwords (OTPs) as part of our multifactor authentication (MFA) workflow. These OTPs are only sent to test users in a staging environment—not to real customers—and are triggered during login attempts.
+> 
+> Here are further details about our email-sending process:
+> 
+>     Frequency: Emails are sent only when a test user initiates a login and explicitly requests to receive the OTP via email. The sending volume is low and depends on internal development and QA activity.
+> 
+>     Recipient List Maintenance: All recipient email addresses belong to internal team members or authorized testers. There are no mailing lists involved.
+> 
+>     Bounce and Complaint Handling: We monitor bounce and complaint metrics through Amazon SNS notifications integrated with SES. We act promptly on any issues to ensure healthy sending practices.
+> 
+>     Email Content: The email is a simple plaintext message containing the OTP and its expiration time. Below is an example:
+> 
+>     Your one-time password is: 123456
+>     This code will expire in 5 minutes.
+> 
+> We have already verified our sending domain and follow best practices for email authentication (SPF, DKIM, etc.).
+
