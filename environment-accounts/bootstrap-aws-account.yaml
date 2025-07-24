@@ -102,7 +102,8 @@ Resources:
           {"Effect":"Allow","Action":["ses:*"],"Resource":"*"},
           {"Effect":"Allow","Action":["events:*"],"Resource":"*"},
           {"Effect":"Allow","Action":["cloudformation:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["elasticfilesystem:*"],"Resource":"*"}
+          {"Effect":"Allow","Action":["elasticfilesystem:*"],"Resource":"*"},
+          {"Effect":"Allow","Action":["wafv2:*"],"Resource":"*"}
         ]
 
         
