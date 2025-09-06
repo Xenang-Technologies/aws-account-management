@@ -52,7 +52,7 @@ IAM users and groups are configured via Cloudformation in this file, `account-co
     * email: admin+aws.ossp.dev2@iknite.studio
     * account id: 179359595775
   * Testing Account
-    * email: kimboh@iknite.studio
+    * email: admin+aws.ossp.prod@iknite.studio
     * account id: 717244548772
   * Artifact Environment
     * email: admin+aws.ossp.artifact@iknite.studio
@@ -67,6 +67,10 @@ IAM users and groups are configured via Cloudformation in this file, `account-co
   * Link Auto
     * email: aws.c4.linkauto@iknite.studio
     * account id: 692780722152
+   * C4-project-boilerplate
+   *  Account id: 239703526381
+  * Lightwatch
+  *  AWS Account Id: 107544175101
 
 
 ## Logging into the AWS dashboard
