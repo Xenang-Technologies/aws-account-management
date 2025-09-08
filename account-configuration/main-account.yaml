@@ -102,6 +102,7 @@ Resources:
       UserName: lovette
       Groups:
         - !Ref DevGroup
+        - !Ref AdminGroup
   Rouclec:
     Type: AWS::IAM::User
     Properties:
