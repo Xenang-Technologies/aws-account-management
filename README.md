@@ -16,17 +16,7 @@ IAM users and groups are configured via Cloudformation in this file, `account-co
 * Main AWS Account
   * email: admin+aws.main@iknite.studio
   * account id: 842675981834
-* Omala
-  * Dev account
-    * email: admin+aws.omala.dev@iknite.studio
-    * account id: 022498999470
-* Cliqkets
-  * Dev account (also the artifacts account)
-    * email: admin+aws.cliqkets.dev@iknite.studio
-    * account id: 908027382967
-* Itamba (all environments and resources)
-  * account id: 208552340011
-  * email: -
+
 * VsorPay
   * Artifact Acocunt
     * email: admin+aws.vsorpay.artifact@iknite.studio
@@ -35,15 +25,10 @@ IAM users and groups are configured via Cloudformation in this file, `account-co
     * email: admin+aws.vsorpay.devb@iknite.studio
     * account id: 403395453307
     * domain: vpayb.site
-  * Dev Account
-    * email: admin+aws.vsorpay.dev@iknite.studio
-    * account id: 557690596244
-  * Testing Account
-    * email: admin+aws.vsorpay.testing@iknite.studio
-    * account id: 597088027552
   * Testing 2 Account
-    * email: admin+aws.vsorpay.testing@iknite.studio
-    * account id: 153870713210
+    * email: admin+aws.vsorpay.testing4@iknite.studio
+    * account id: 351323458512
+
 * OSSP
   * Dev Account (also the artifacts account)
     * email: admin+aws.ossp.dev@iknite.studio
@@ -51,12 +36,13 @@ IAM users and groups are configured via Cloudformation in this file, `account-co
   * Dev2 Account
     * email: admin+aws.ossp.dev2@iknite.studio
     * account id: 179359595775
-  * Testing Account
+  * Testing/Prod Account
     * email: admin+aws.ossp.prod@iknite.studio
     * account id: 717244548772
   * Artifact Environment
     * email: admin+aws.ossp.artifact@iknite.studio
     * account id: 420136252572
+
 * Iknite Space C4 Projects
   * Cribconnect
     * email: aws.c4.cribconnect@iknite.studio
@@ -116,3 +102,37 @@ We use the following terminology when referring to the various AWS accounts that
   * deploy - automated deployments
     * Grant assume role to - GitHub repo OICD provider
 * Bootstrapping: [see detailed directions here](environment-accounts/README.md)
+
+
+# Old Unused accounts:
+* Vsorpay
+   * Dev Account
+    * email: admin+aws.vsorpay.dev@iknite.studio
+    * account id: 557690596244
+  * Testing Account
+    * email: admin+aws.vsorpay.testing@iknite.studio
+    * account id: 597088027552
+  * Testing 2 Account
+    * email: admin+aws.vsorpay.testing@iknite.studio
+    * account id: 153870713210
+   
+  * Omala
+  * Dev account
+    * email: admin+aws.omala.dev@iknite.studio
+    * account id: 022498999470
+      
+* Cliqkets
+  * Dev account (also the artifacts account)
+    * email: admin+aws.cliqkets.dev@iknite.studio
+    * account id: 908027382967
+* Itamba (all environments and resources)
+  * account id: 208552340011
+  * email: -
+
+ * OSSP
+  * Dev Account (also the artifacts account)
+    * email: admin+aws.ossp.dev@iknite.studio
+    * account id: 557690618326
+  * Dev2 Account
+    * email: admin+aws.ossp.dev2@iknite.studio
+    * account id: 179359595775
