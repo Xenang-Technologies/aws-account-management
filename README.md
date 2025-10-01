@@ -21,21 +21,15 @@ IAM users and groups are configured via Cloudformation in this file, `account-co
   * Artifact Acocunt
     * email: admin+aws.vsorpay.artifact@iknite.studio
     * account id: 685873929242
-  * Dev B Account
-    * email: admin+aws.vsorpay.devb@iknite.studio
-    * account id: 403395453307
+  * Dev B2 Account
+    * email: vsorpay.aws.dev@iknite.studio (forwards to admin+aws.vsorpay.dev@iknite.studio)
+    * account id: 018889389059
     * domain: vpayb.site
   * Testing 2 Account
     * email: admin+aws.vsorpay.testing4@iknite.studio
     * account id: 351323458512
 
 * OSSP
-  * Dev Account (also the artifacts account)
-    * email: admin+aws.ossp.dev@iknite.studio
-    * account id: 557690618326
-  * Dev2 Account
-    * email: admin+aws.ossp.dev2@iknite.studio
-    * account id: 179359595775
   * Testing/Prod Account
     * email: admin+aws.ossp.prod@iknite.studio
     * account id: 717244548772
@@ -115,6 +109,10 @@ We use the following terminology when referring to the various AWS accounts that
   * Testing 2 Account
     * email: admin+aws.vsorpay.testing@iknite.studio
     * account id: 153870713210
+    * Dev B Account
+    * email: admin+aws.vsorpay.devb@iknite.studio
+    * account id: 403395453307
+    * domain: vpayb.site
    
   * Omala
   * Dev account
@@ -131,6 +129,12 @@ We use the following terminology when referring to the various AWS accounts that
 
  * OSSP
   * Dev Account (also the artifacts account)
+    * email: admin+aws.ossp.dev@iknite.studio
+    * account id: 557690618326
+  * Dev2 Account
+    * email: admin+aws.ossp.dev2@iknite.studio
+    * account id: 179359595775
+   * Dev Account (also the artifacts account)
     * email: admin+aws.ossp.dev@iknite.studio
     * account id: 557690618326
   * Dev2 Account
