@@ -124,69 +124,27 @@ Resources:
       Groups:
         - !Ref DevGroup
 
-## Trainees Users
   Sedrick:
     Type: AWS::IAM::User
     Properties:
       UserName: sedrick
       Groups:
-        - !Ref TraineeGroup
+        - !Ref DevGroup
 
-  Precious:
+  Ichami:
     Type: AWS::IAM::User
     Properties:
-      UserName: precious
+      UserName: ichami
       Groups:
-        - !Ref TraineeGroup
+        - !Ref DevGroup
 
-  Henry:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: henry
-      Groups:
-        - !Ref TraineeGroup
-
-  Estella:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: estella
-      Groups:
-        - !Ref TraineeGroup
-
-  Docine:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: docine
-      Groups:
-        - !Ref TraineeGroup
-
-  Brandon:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: brandon
-      Groups:
-        - !Ref TraineeGroup
-
-  Florent:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: florent
-      Groups:
-        - !Ref TraineeGroup
-
-  Robert:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: robert
-      Groups:
-        - !Ref TraineeGroup
 
   Tonny:
     Type: AWS::IAM::User
     Properties:
       UserName: tonny
       Groups:
-        - !Ref TraineeGroup
+        - !Ref DevGroup
 
   ## Finance Team
   Mirabel:
