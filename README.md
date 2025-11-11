@@ -27,7 +27,7 @@ IAM users and groups are configured via Cloudformation in this file, `account-co
     * domain: vpayb.site
   * Testing 2 Account
     * email: admin+aws.vsorpay.testing4@iknite.studio
-    * account id: 351323458512
+    * account id: 674182809011
 
 * OSSP
   * Testing/Prod Account
