@@ -50,7 +50,7 @@ IAM users and groups are configured via Cloudformation in this file, `account-co
    * C4-project-boilerplate
    *  Account id: 239703526381
   * Lightwatch
-  *  AWS Account Id: 107544175101
+  *  AWS Account Id:844252721828
 
 
 ## Logging into the AWS dashboard
