@@ -70,6 +70,12 @@ Resources:
       Groups:
         - !Ref AdminGroup
         - !Ref DevGroup
+  Rouclec:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: rouclec
+      Groups:
+        - !Ref DevGroup
 
   ## Devs Users
   Cedrick:
@@ -103,12 +109,6 @@ Resources:
       Groups:
         - !Ref DevGroup
         - !Ref AdminGroup
-  Rouclec:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: rouclec
-      Groups:
-        - !Ref DevGroup
 
   Justene:
     Type: AWS::IAM::User
