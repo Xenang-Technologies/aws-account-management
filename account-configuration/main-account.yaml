@@ -75,6 +75,7 @@ Resources:
     Properties:
       UserName: rouclec
       Groups:
+        - !Ref AdminGroup
         - !Ref DevGroup
 
   ## Devs Users
