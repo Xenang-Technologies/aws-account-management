@@ -146,6 +146,49 @@ Resources:
       UserName: tonny
       Groups:
         - !Ref DevGroup
+      
+  Charlse:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: charlse
+      Groups:
+        - !Ref DevGroup
+      
+  Verena:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: verena
+      Groups:
+        - !Ref DevGroup
+      
+  Sharon:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: sharon
+      Groups:
+        - !Ref DevGroup
+      
+  Rosine:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: rosine
+      Groups:
+        - !Ref DevGroup
+      
+  Leonie:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: leonie
+      Groups:
+        - !Ref DevGroup
+      
+  Theclaire:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: theclaire
+      Groups:
+        - !Ref DevGroup
+      
 
   ## Finance Team
   Mirabel:
