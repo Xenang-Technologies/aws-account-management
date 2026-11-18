@@ -85,6 +85,7 @@ Resources:
                                     "iam:DeleteUser",
                                     "iam:ListAccessKeys",
                                     "iam:CreateAccessKey",
+                                    "iam:ListGroupsForUser",
                                 ],
                             "Resource":
                                 [
@@ -110,6 +111,26 @@ Resources:
                             "Resource":
                                 {
                                     "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:group/*",
+                                },
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action":
+                                [
+                                    "iam:CreatePolicy",
+                                    "iam:DeletePolicy",
+                                    "iam:GetPolicy",
+                                    "iam:GetPolicyVersion",
+                                    "iam:CreatePolicyVersion",
+                                    "iam:DeletePolicyVersion",
+                                    "iam:ListPolicyVersions",
+                                    "iam:ListEntitiesForPolicy",
+                                    "iam:TagPolicy",
+                                    "iam:UntagPolicy",
+                                ],
+                            "Resource":
+                                {
+                                    "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:policy/*",
                                 },
                         },
                         {
@@ -206,90 +227,90 @@ Resources:
             ThumbprintList:
                 - ffffffffffffffffffffffffffffffffffffffff
 
-## Dev Role
-  DevRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: dev
-      AssumeRolePolicyDocument:
-        Statement: 
-          - Effect: "Allow"
-            Principal:
-              AWS: !Sub "arn:aws:iam::${MainAccountId}:root"
-            Action: "sts:AssumeRole"
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AmazonVPCFullAccess
-        - arn:aws:iam::aws:policy/AWSLambda_FullAccess
-        - arn:aws:iam::aws:policy/SecretsManagerReadWrite
-        - arn:aws:iam::aws:policy/AmazonAPIGatewayAdministrator
-        - arn:aws:iam::aws:policy/AmazonRoute53FullAccess
-        - arn:aws:iam::aws:policy/AWSCertificateManagerFullAccess
-        - arn:aws:iam::aws:policy/CloudFrontFullAccess
-  DevRolePolicies:
-    Type: "AWS::IAM::Policy"
-    Properties:
-      PolicyName: "root"
-      PolicyDocument:
-        Version: "2012-10-17"
-        Statement: [
-          {"Effect":"Allow","Action":[
-            "iam:GetRole",
-            "iam:PassRole",
-            "iam:DeleteRole",
-            "iam:PutRolePolicy",
-            "iam:DeleteRolePolicy",
-            "iam:DeleteUserPolicy",
-            "iam:PutUserPolicy",
-            "iam:DeleteUser",
-            "iam:CreateAccessKey",
-            "iam:CreateRole",
-            "iam:CreateServiceLinkedRole",
-            "iam:AttachRolePolicy",
-            "iam:DetachRolePolicy",
-            "iam:UpdateAssumeRolePolicy",
-            "iam:RemoveRoleFromInstanceProfile",
-            "iam:RemoveRoleFromInstanceProfile",
-            "iam:AddRoleToInstanceProfile",
-            "iam:DeleteInstanceProfile",
-            "iam:CreateInstanceProfile",
-            "iam:UpdateInstanceProfile",
-            "iam:TagRole",
-            "iam:UntagRole",
-            "iam:GetUser",
-            "iam:CreateUser",
-            "iam:ListAccessKeys",
-            "iam:TagUser"
-            ],"Resource": [
-              { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/*"},
-              { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:user/*"}
-        ]},
-          {"Effect":"Allow","Action":["iam:*"],"Resource": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:instance-profile/*"}},
-          {"Effect":"Allow","Action":["*"],"Resource": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:group/*"}},
-          {"Effect":"Allow","Action":["ecr:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["ecs:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["logs:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["elasticloadbalancing:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["sns:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["ec2:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["ssm:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["sqs:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["servicediscovery:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["autoscaling:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["s3:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["rds:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["ses:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["events:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["cloudformation:*"],"Resource":"*"},
-          {"Effect":"Allow","Action":["ce:*"],"Resource":"*"},
-          {"Effect":"Allow", "Action":["aws-portal:ViewBilling", "aws-portal:ViewUsage"], "Resource": "*"},
-          {"Effect":"Allow","Action":["elasticfilesystem:*"],"Resource":"*"}
+  ## Dev Role
+    DevRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: dev
+        AssumeRolePolicyDocument:
+          Statement: 
+            - Effect: "Allow"
+              Principal:
+                AWS: !Sub "arn:aws:iam::${MainAccountId}:root"
+              Action: "sts:AssumeRole"
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/AmazonVPCFullAccess
+          - arn:aws:iam::aws:policy/AWSLambda_FullAccess
+          - arn:aws:iam::aws:policy/SecretsManagerReadWrite
+          - arn:aws:iam::aws:policy/AmazonAPIGatewayAdministrator
+          - arn:aws:iam::aws:policy/AmazonRoute53FullAccess
+          - arn:aws:iam::aws:policy/AWSCertificateManagerFullAccess
+          - arn:aws:iam::aws:policy/CloudFrontFullAccess
+    DevRolePolicies:
+      Type: "AWS::IAM::Policy"
+      Properties:
+        PolicyName: "root"
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement: [
+            {"Effect":"Allow","Action":[
+              "iam:GetRole",
+              "iam:PassRole",
+              "iam:DeleteRole",
+              "iam:PutRolePolicy",
+              "iam:DeleteRolePolicy",
+              "iam:DeleteUserPolicy",
+              "iam:PutUserPolicy",
+              "iam:DeleteUser",
+              "iam:CreateAccessKey",
+              "iam:CreateRole",
+              "iam:CreateServiceLinkedRole",
+              "iam:AttachRolePolicy",
+              "iam:DetachRolePolicy",
+              "iam:UpdateAssumeRolePolicy",
+              "iam:RemoveRoleFromInstanceProfile",
+              "iam:RemoveRoleFromInstanceProfile",
+              "iam:AddRoleToInstanceProfile",
+              "iam:DeleteInstanceProfile",
+              "iam:CreateInstanceProfile",
+              "iam:UpdateInstanceProfile",
+              "iam:TagRole",
+              "iam:UntagRole",
+              "iam:GetUser",
+              "iam:CreateUser",
+              "iam:ListAccessKeys",
+              "iam:TagUser"
+              ],"Resource": [
+                { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:role/*"},
+                { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:user/*"}
+          ]},
+            {"Effect":"Allow","Action":["iam:*"],"Resource": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:instance-profile/*"}},
+            {"Effect":"Allow","Action":["*"],"Resource": { "Fn::Sub": "arn:aws:iam::${AWS::AccountId}:group/*"}},
+            {"Effect":"Allow","Action":["ecr:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["ecs:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["logs:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["elasticloadbalancing:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["sns:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["ec2:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["ssm:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["sqs:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["servicediscovery:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["autoscaling:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["s3:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["rds:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["ses:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["events:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["cloudformation:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":["ce:*"],"Resource":"*"},
+            {"Effect":"Allow", "Action":["aws-portal:ViewBilling", "aws-portal:ViewUsage"], "Resource": "*"},
+            {"Effect":"Allow","Action":["elasticfilesystem:*"],"Resource":"*"}
 
-        ]
+          ]
 
-        
-      Roles:
-        - Ref: "DevRole"
-  
+          
+        Roles:
+          - Ref: "DevRole"
+    
 
     ## Admin Role
     AdminRole:
