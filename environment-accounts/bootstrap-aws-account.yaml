@@ -30,7 +30,10 @@ Resources:
                           StringEquals:
                               token.actions.githubusercontent.com:aud: !Ref OIDCAudience
                           StringLike:
-                              token.actions.githubusercontent.com:sub: !Sub repo:${GitHubOrgUser}/${RepositoryName}:*
+                              # Repos with immutable OIDC subjects send repo:<org>@<id>/<repo>@<id>:...
+                              token.actions.githubusercontent.com:sub:
+                                  - !Sub repo:${GitHubOrgUser}/${RepositoryName}:*
+                                  - !Sub repo:${GitHubOrgUser}@*/${RepositoryName}@*:*
                     - Effect: "Allow"
                       Principal:
                           AWS: !Sub "arn:aws:iam::${MainAccountId}:root"
