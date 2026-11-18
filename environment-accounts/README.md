@@ -7,7 +7,7 @@ When creating a new AWS account there will be a few manual steps that will need 
 1. When creating a new AWS account use the following email address: admin+aws.project-name.environment-id@iknite.studio. Note that the text after the + (plus) in the username will be ignored by Google Workspace and all emails will go to the admin@iknite.studio inbox.
 1. Use a strong password and save this password in the shared bitwarden account.
 1. Add MFA to the account. Use the Bitwarden shared account for the TOTP codes.
-1. Run the bootstrap-aws-account.yaml Cloudformation template manually from the AWS console. (https://github.com/Iknite-Space/aws-account-management/tree/main/environment-accounts). Make sure to change the region to us-east-1 if it's not already selected. Name the stack `bootstrap-aws-account`
+1. Run the bootstrap-aws-account.yaml Cloudformation template manually from the AWS console. (https://github.com/Xenang-Technologies/aws-account-management/tree/main/environment-accounts). Make sure to change the region to us-east-1 if it's not already selected. Name the stack `bootstrap-aws-account`
 1. Update the environments.yaml in the project repo to include this new environment account and set the account number
 1. Add the new account id to the README.md in this repo.
 1. [Activate access to the Billing and Cost Management console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/control-access-billing.html#ControllingAccessWebsite-Activate])

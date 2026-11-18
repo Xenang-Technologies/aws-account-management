@@ -2,14 +2,14 @@ Parameters:
     GitHubOrgUser:
         Description: Name of GitHub organization/user (case sensitive)
         Type: String
-        Default: "Iknite-Space"
+        Default: "Xenang-Technologies"
     RepositoryName:
         Description: Name of GitHub repository (case sensitive)
         Type: String
     MainAccountId:
         Description: Main AWS Account ID that holds the IAM users allowed to assume role into this account
         Type: String
-        Default: "842675981834"
+        Default: "124920735437"
     OIDCAudience:
         Description: Audience supplied to configure-aws-credentials.
         Default: "sts.amazonaws.com"
