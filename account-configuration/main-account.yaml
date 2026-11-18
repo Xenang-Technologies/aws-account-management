@@ -69,3 +69,11 @@ Resources:
       Groups:
         - !Ref AdminGroup
         - !Ref DevGroup
+
+  ## Devs Users
+  Njoya:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: njoya
+      Groups:
+        - !Ref DevGroup
