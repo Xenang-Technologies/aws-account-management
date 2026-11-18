@@ -3,199 +3,69 @@ Resources:
     Type: AWS::IAM::Group
     Properties:
       GroupName: admins
-      Policies:
-        - PolicyName: AssumeRoleintoEnvironments
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'sts:AssumeRole'
-                Resource: 
-                  - 'arn:aws:iam::*:role/admin'
-                  - 'arn:aws:iam::*:role/deploy'
-                  - 'arn:aws:iam::*:role/ci'
-                  - 'arn:aws:iam::*:role/dev'
-                  - 'arn:aws:iam::*:role/trainee'
+
+  AdminAssumeRolePolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Allow admins to assume roles into environment accounts
+      Groups:
+        - !Ref AdminGroup
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: 'sts:AssumeRole'
+            Resource:
+              - 'arn:aws:iam::*:role/admin'
+              - 'arn:aws:iam::*:role/deploy'
+              - 'arn:aws:iam::*:role/ci'
+              - 'arn:aws:iam::*:role/dev'
 
   DevGroup:
     Type: AWS::IAM::Group
     Properties:
       GroupName: devs
-      Policies:
-        - PolicyName: AssumeRoleIntoEnvironments
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'sts:AssumeRole'
-                Resource: 
-                  - 'arn:aws:iam::*:role/dev'
-                  - 'arn:aws:iam::*:role/trainee'
-                  - 'arn:aws:iam::*:role/deploy'
 
-  TraineeGroup:
-    Type: AWS::IAM::Group
+  DevAssumeRolePolicy:
+    Type: AWS::IAM::ManagedPolicy
     Properties:
-      GroupName: trainees
-      Policies:
-        - PolicyName: AssumeRoleIntoEnvironments
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'sts:AssumeRole'
-                Resource: 
-                  - 'arn:aws:iam::*:role/trainee'
-
+      Description: Allow devs to assume roles into environment accounts
+      Groups:
+        - !Ref DevGroup
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: 'sts:AssumeRole'
+            Resource:
+              - 'arn:aws:iam::*:role/dev'
+              - 'arn:aws:iam::*:role/trainee'
+              - 'arn:aws:iam::*:role/deploy'
 
   FinanceGroup:
     Type: AWS::IAM::Group
     Properties:
       GroupName: finance
-      Policies:
-        - PolicyName: AssumeRoleIntoEnvironments
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'sts:AssumeRole'
-                Resource: 
-                  - 'arn:aws:iam::*:role/billing'
+
+  FinanceAssumeRolePolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: Allow finance to assume the billing role in environment accounts
+      Groups:
+        - !Ref FinanceGroup
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action: 'sts:AssumeRole'
+            Resource:
+              - 'arn:aws:iam::*:role/billing'
 
 ## Admins Users
-  Ryan:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: ryan
-      Groups:
-        - !Ref AdminGroup
-        - !Ref DevGroup
-  Rouclec:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: rouclec
-      Groups:
-        - !Ref AdminGroup
-        - !Ref DevGroup
-
-  ## Devs Users
-  Cedrick:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: cedrick
-      Groups:
-        - !Ref DevGroup
-  Carlson:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: carlson
-      Groups:
-        - !Ref DevGroup
-  Eva:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: eva
-      Groups:
-        - !Ref DevGroup
-  Gilbert:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: gilbert
-      Groups:
-        - !Ref DevGroup
   Lovette:
     Type: AWS::IAM::User
     Properties:
       UserName: lovette
       Groups:
-        - !Ref DevGroup
         - !Ref AdminGroup
-
-  Justene:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: justene
-      Groups:
         - !Ref DevGroup
-
-  Indah:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: indah
-      Groups:
-        - !Ref DevGroup
-
-  Sedrick:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: sedrick
-      Groups:
-        - !Ref DevGroup
-
-  Ichami:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: ichami
-      Groups:
-        - !Ref DevGroup
-
-
-  Tonny:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: tonny
-      Groups:
-        - !Ref DevGroup
-      
-  Charlse:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: charlse
-      Groups:
-        - !Ref DevGroup
-      
-  Verena:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: verena
-      Groups:
-        - !Ref DevGroup
-      
-  Sharon:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: sharon
-      Groups:
-        - !Ref DevGroup
-      
-  Rosine:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: rosine
-      Groups:
-        - !Ref DevGroup
-      
-  Leonie:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: leonie
-      Groups:
-        - !Ref DevGroup
-      
-  Theclaire:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: theclaire
-      Groups:
-        - !Ref DevGroup
-      
-
-  ## Finance Team
-  Mirabel:
-    Type: AWS::IAM::User
-    Properties:
-      UserName: mirabel
-      Groups:
-        - !Ref FinanceGroup
-        
-        
