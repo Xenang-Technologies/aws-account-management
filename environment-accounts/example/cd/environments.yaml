@@ -4,12 +4,12 @@
 - envId: dev
   name: Development
   gitRefName: main
-  awsAccountId: 111111111111
-  domainName: dev.example.com
+  awsAccountId: 246152664877
+  domainName: pivotpay.xyz
   
-- envId: testing
-  name: Testing
-  gitRefName: release/testing/v2
-  awsAccountId: 222222222222
-  domainName: testing.example.com 
+# - envId: testing
+#   name: Testing
+#   gitRefName: release/testing/v2
+#   awsAccountId: 222222222222
+#   domainName: testing.example.com 
 

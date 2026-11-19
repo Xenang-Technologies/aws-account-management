@@ -22,7 +22,7 @@ To add a user, add an `AWS::IAM::User` resource to `main-account.yaml` and merge
 Record every account here when it is created, along with the email address used as its root email.
 
 * Main AWS Account (AWS Organization management account)
-  * email: _(add the main account's Gmail address)_
+  * email: xenangadmin@gmail.com
   * account id: 124920735437
 
 * Pivot
