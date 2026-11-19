@@ -4,14 +4,13 @@ This bootstrapping process assumes deployments are managed with GitHub Actions. 
 New accounts are created from the main account (124920735437), which is the management account of our AWS Organization.
 
 # Bootstrapping a new Environment Account
-1. Create a new Gmail address for the account. Use a name that identifies the project and environment, e.g. `<project>.<environment>.aws@gmail.com`. Save its password and set up its 2-step verification in the shared Bitwarden account.
 1. In the main account, go to AWS Organizations → AWS accounts → Add an AWS account → Create an AWS account:
    * AWS account name: `<project>-<environment>`
-   * Email address of the account's owner: the Gmail address from step 1
+   * Email address of the account's owner: `xenangadmin+aws.<project>.<environment>@gmail.com` (e.g. `xenangadmin+aws.pivot.dev@gmail.com`). Gmail ignores the text after the `+`, so all emails go to the `xenangadmin@gmail.com` inbox, while AWS treats each address as unique.
    * IAM role name: leave the default, `OrganizationAccountAccessRole`
 
    Wait for the account to be created, note its account id, and move it into the project's organizational unit if there is one.
-1. Set up the account's root user. Accounts created through Organizations have no root password, so on the AWS sign-in page choose "Root user", enter the account's Gmail address and use "Forgot password" to set one. Save the password in the shared Bitwarden account, then sign in and add MFA, also using the shared Bitwarden account for the TOTP codes.
+1. Set up the account's root user. Accounts created through Organizations have no root password, so on the AWS sign-in page choose "Root user", enter the account's email address and use "Forgot password" to set one. Save the password in the shared Bitwarden account, then sign in and add MFA, also using the shared Bitwarden account for the TOTP codes.
 1. Switch into the new account: from the main account console, use "Switch role" with the new account id and the role `OrganizationAccountAccessRole`. This role is only assumable by main-account principals with administrator access (e.g. the main account root user); alternatively, sign in as the new account's root user.
 1. In the new account, change the region to `us-east-1` and create a CloudFormation stack from [bootstrap-aws-account.yaml](bootstrap-aws-account.yaml):
    * Stack name: `bootstrap-aws-account`
@@ -22,7 +21,7 @@ New accounts are created from the main account (124920735437), which is the mana
 
    Acknowledge that the stack creates IAM resources and create it.
 1. Update `cd/environments.yaml` in the project repo to include this new environment and set its account id.
-1. Add the new account id and its Gmail address to the [README.md](../README.md#current-aws-accounts) in this repo.
+1. Add the new account id and its email address to the [README.md](../README.md#current-aws-accounts) in this repo.
 1. [Activate access to the Billing and Cost Management console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/control-access-billing.html#ControllingAccessWebsite-Activate).
 
 The bootstrap template creates these resources in the account:

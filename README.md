@@ -19,11 +19,16 @@ IAM users and groups are configured with CloudFormation in `account-configuratio
 To add a user, add an `AWS::IAM::User` resource to `main-account.yaml` and merge it to `main`. CI creates the user, but it can't sign in yet: an admin must then log into the main account's console, enable console access for the user (IAM → Users → user → Security credentials) and have them set up MFA.
 
 # Current AWS Accounts
-Record every account here when it is created, along with the Gmail address used as its root email.
+Record every account here when it is created, along with the email address used as its root email.
 
 * Main AWS Account (AWS Organization management account)
   * email: _(add the main account's Gmail address)_
   * account id: 124920735437
+
+* Pivot
+  * Dev Account
+    * email: xenangadmin+aws.pivot.dev@gmail.com
+    * account id: 246152664877
 
 ## Logging into the AWS dashboard
 To log into the AWS dashboard for a particular project environment:
@@ -47,7 +52,7 @@ We use these terms for the AWS accounts we create to manage our projects: Main A
 * Maintains the `admins`, `devs` and `finance` IAM groups, which are used to assume roles into other accounts.
 * A CloudFormation template (`account-configuration/main-account.yaml`) is applied on commits to `main`. It creates the groups and IAM users.
 * Bootstrapping (already done for 124920735437; only needed if the main account is ever recreated):
-  1. Create the root account with a new Gmail address. Save the password and set up MFA in the shared Bitwarden account.
+  1. Create the root account with a `xenangadmin+aws.<name>@gmail.com` email address. Save the password and set up MFA in the shared Bitwarden account.
   1. Create an AWS Organization from the account.
   1. Manually apply `environment-accounts/bootstrap-aws-account.yaml` in `us-east-1`, with stack name `bootstrap-aws-account`, `RepositoryName=aws-account-management` and `MainAccountId` set to this account's id. This creates the `deploy` role that GitHub Actions uses to apply `main-account.yaml`.
   1. Update the main account id in `.github/workflows/main-account-config.yaml`, in the `MainAccountId` default of `bootstrap-aws-account.yaml`, and in this README.
