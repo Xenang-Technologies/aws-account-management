@@ -39,7 +39,7 @@ To log into the AWS dashboard for a particular project environment:
 1. Fill in the form and click "Switch Role":
    * Account ID: the id of the environment account you want, from the list above.
    * IAM role name: `dev` (or `admin` if you are in the `admins` group).
-   * Display name: something memorable, like "Omala Dev Environment (dev role)".
+   * Display name: something memorable, like "Pivot Dev (dev role)".
 
 
 # AWS Account Types
