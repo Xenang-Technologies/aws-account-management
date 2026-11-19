@@ -4,12 +4,12 @@
 - envId: dev
   name: Development
   gitRefName: main
-  awsAccountId: 557690596244
-  domainName: vsorpaydev.xyz
+  awsAccountId: 111111111111
+  domainName: dev.example.com
   
 - envId: testing
   name: Testing
   gitRefName: release/testing/v2
-  awsAccountId: 597088027552
-  domainName: vsorpaytesting.xyz 
+  awsAccountId: 222222222222
+  domainName: testing.example.com 
 

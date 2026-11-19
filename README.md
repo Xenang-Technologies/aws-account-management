@@ -1,149 +1,71 @@
-# aws-account-manage
+# aws-account-management
 
+Configuration for Xenang Technologies' AWS accounts: the main account, which holds all IAM users and the AWS Organization, and the project environment accounts under it.
 
 # Directory Structure
 
-* /environment-accounts
-  * These are boilerplate files for creating a new aws account for a project environment
 * /account-configuration
-  * These files are for configuring the main AWS account. They contain cloudformation templates that are applied on commits to main.
+  * CloudFormation templates for configuring the main AWS account. They are applied by GitHub Actions on every commit to `main`.
+* /environment-accounts
+  * Boilerplate for bootstrapping a new AWS account for a project environment. See [environment-accounts/README.md](environment-accounts/README.md).
 
 # Managing users
-IAM users and groups are configured via Cloudformation in this file, `account-configuration/main-account.yaml`. We have two groups that users can be added to: `dev` and `admin`. After a user is added to this file for the first time, an admin user will need to log into the AWS console to generate some creds for the user.
+IAM users and groups are configured with CloudFormation in `account-configuration/main-account.yaml`. Users can be added to these groups:
+
+* `admins` - can assume the `admin`, `deploy`, `ci` and `dev` roles in environment accounts
+* `devs` - can assume the `dev`, `trainee` and `deploy` roles in environment accounts
+* `finance` - can assume the `billing` role in environment accounts
+
+To add a user, add an `AWS::IAM::User` resource to `main-account.yaml` and merge it to `main`. CI creates the user, but it can't sign in yet: an admin must then log into the main account's console, enable console access for the user (IAM → Users → user → Security credentials) and have them set up MFA.
 
 # Current AWS Accounts
+Record every account here when it is created, along with the Gmail address used as its root email.
 
-* Main AWS Account
-  * email: admin+aws.main@iknite.studio
+* Main AWS Account (AWS Organization management account)
+  * email: _(add the main account's Gmail address)_
   * account id: 124920735437
 
-* VsorPay
-  * Artifact Acocunt
-    * email: admin+aws.vsorpay.artifact@iknite.studio
-    * account id: 685873929242
-  * Dev B2 Account
-    * email: vsorpay.aws.dev@iknite.studio (forwards to admin+aws.vsorpay.dev@iknite.studio)
-    * account id: 018889389059
-    * domain: vpayb.site
-  * Testing 2 Account
-    * email: admin+aws.vsorpay.testing4@iknite.studio
-    * account id: 674182809011
-
-* OSSP
-  * Testing/Prod Account
-    * email: admin+aws.ossp.prod@iknite.studio
-    * account id: 717244548772
-  * Artifact Environment
-    * email: admin+aws.ossp.artifact@iknite.studio
-    * account id: 420136252572
-   
-  * Lightwatch
-    * Dev
-     * email: admin+aws.lightwatch.dev@iknite.stduio
-     * account id: 951865903611
-
-
 ## Logging into the AWS dashboard
-To login to the AWS dashboard for a particular project eenvironment do the following:
-1) Login into the Main AWS account with your IAM credentials (if you don't have any IAM credentails, you can request them)
-  * Use this url to login: https://124920735437.signin.aws.amazon.com/console
-1) click on the menu in the top right corner of the AWS console (it should say `username @ 8426-75981834`)
-1) Click on "Switch rolw" at the bottom of the menu.
-1) A modal will open asking which role you wish to assume. Fill the form with the followin info and click "Switch Role"
-  * Account ID: Find the account id for the environment you wish to connect to from the list above.
-  * For the IAM role name type `dev`
-  * Finally give a memorable display name to the role (something like "Omala Dev Environment (dev role)")
+To log into the AWS dashboard for a particular project environment:
+1. Log into the main AWS account with your IAM credentials (if you don't have any, ask an admin).
+   * Use this URL to log in: https://124920735437.signin.aws.amazon.com/console
+1. Click the account menu in the top right corner of the AWS console (it should say `username @ 1249-2073-5437`).
+1. Click "Switch role".
+1. Fill in the form and click "Switch Role":
+   * Account ID: the id of the environment account you want, from the list above.
+   * IAM role name: `dev` (or `admin` if you are in the `admins` group).
+   * Display name: something memorable, like "Omala Dev Environment (dev role)".
 
 
 # AWS Account Types
-We use the following terminology when referring to the various AWS accounts that we create for managing our projects. Main Account, Environment Account, Artifact Account. Below we describe the use of each account.
+We use these terms for the AWS accounts we create to manage our projects: Main Account, Environment Account and Artifact Account.
 
 ## Main Account
-* We will have exactly one account of this type.
-* Hosts all IAM users (dev accounts)
-  * This is the only AWS account in which devs (and other users) will have IAM accounts
-* Maintains a dev and admin IAM group (used to assume role into other accounts)
-* Bootstrapping:
-  * Create root account using the email address `admin+aws.main@iknite.studio`
-  * Manually apply the bootstrap-aws-account.yaml cloudformation template
-* A Cloudformation template will be applied on commits to main. This should create the groups and the IAM users
+* There is exactly one account of this type.
+* It is the management account of the AWS Organization. All environment accounts are created in, or invited into, this organization.
+* Hosts all IAM users. This is the only AWS account in which devs (and other users) have IAM users.
+* Maintains the `admins`, `devs` and `finance` IAM groups, which are used to assume roles into other accounts.
+* A CloudFormation template (`account-configuration/main-account.yaml`) is applied on commits to `main`. It creates the groups and IAM users.
+* Bootstrapping (already done for 124920735437; only needed if the main account is ever recreated):
+  1. Create the root account with a new Gmail address. Save the password and set up MFA in the shared Bitwarden account.
+  1. Create an AWS Organization from the account.
+  1. Manually apply `environment-accounts/bootstrap-aws-account.yaml` in `us-east-1`, with stack name `bootstrap-aws-account`, `RepositoryName=aws-account-management` and `MainAccountId` set to this account's id. This creates the `deploy` role that GitHub Actions uses to apply `main-account.yaml`.
+  1. Update the main account id in `.github/workflows/main-account-config.yaml`, in the `MainAccountId` default of `bootstrap-aws-account.yaml`, and in this README.
 
 ## Artifact Account
-* Hosts all build artifacts for a project (ECR, s3)
-* Hosts all "image-tag" data in systems manager
-* Note: This account will just be one of the environment accounts for a project.
+* Hosts all build artifacts for a project (ECR, S3).
+* Hosts all "image-tag" data in Systems Manager.
+* Note: this account is just one of the environment accounts of a project.
 * Bootstrapping:
-  * No additional bootstrapping needed as this account will also be an environment account
-
-
+  * No additional bootstrapping needed, as this account is also an environment account.
 
 ## Environment Accounts
-* Maintains 3 roles that can be assumed
-  * dev - gives access to devs for monitoring and
-    * grant assume role to mainAccount::devs
-  * admin -
-    * Grant assume role to mainAccount::admins
-  * deploy - automated deployments
-    * Grant assume role to - GitHub repo OICD provider
+* One account per project environment (dev, testing, production, ...), created in the AWS Organization.
+* Maintains 3 roles that can be assumed:
+  * `dev` - gives devs access for development and monitoring
+    * Assumable from the main account (`devs` and `admins` groups)
+  * `admin` - full administrator access
+    * Assumable from the main account (`admins` group)
+  * `deploy` - automated deployments
+    * Assumable by GitHub Actions from the project's repository, via the account's GitHub OIDC provider
 * Bootstrapping: [see detailed directions here](environment-accounts/README.md)
-
-
-# Old Unused accounts:
-* Vsorpay
-   * Dev Account
-    * email: admin+aws.vsorpay.dev@iknite.studio
-    * account id: 557690596244
-  * Testing Account
-    * email: admin+aws.vsorpay.testing@iknite.studio
-    * account id: 597088027552
-  * Testing 2 Account
-    * email: admin+aws.vsorpay.testing@iknite.studio
-    * account id: 153870713210
-    * Dev B Account
-    * email: admin+aws.vsorpay.devb@iknite.studio
-    * account id: 403395453307
-    * domain: vpayb.site
-   
-  * Omala
-  * Dev account
-    * email: admin+aws.omala.dev@iknite.studio
-    * account id: 022498999470
-      
-* Cliqkets
-  * Dev account (also the artifacts account)
-    * email: admin+aws.cliqkets.dev@iknite.studio
-    * account id: 908027382967
-* Itamba (all environments and resources)
-  * account id: 208552340011
-  * email: -
-
- * OSSP
-  * Dev Account (also the artifacts account)
-    * email: admin+aws.ossp.dev@iknite.studio
-    * account id: 557690618326
-  * Dev2 Account
-    * email: admin+aws.ossp.dev2@iknite.studio
-    * account id: 179359595775
-   * Dev Account (also the artifacts account)
-    * email: admin+aws.ossp.dev@iknite.studio
-    * account id: 557690618326
-  * Dev2 Account
-    * email: admin+aws.ossp.dev2@iknite.studio
-    * account id: 179359595775
-   
-   
-* Iknite Space C4 Projects
-  * Cribconnect
-    * email: aws.c4.cribconnect@iknite.studio
-     * acocunt id: 761526718406
-  * Queue Less
-    * email: aws.c4.queueless@iknite.studio
-    * account id: 957877467588
-  * Link Auto
-    * email: aws.c4.linkauto@iknite.studio
-    * account id: 692780722152
-   * C4-project-boilerplate
-   *  Account id: 239703526381
-  * Lightwatch
-  *  AWS Account Id:844252721828
-
