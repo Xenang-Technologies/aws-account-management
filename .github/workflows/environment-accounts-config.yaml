@@ -1,0 +1,80 @@
+name: Environment Accounts Config
+
+# Applies environment-accounts/bootstrap-aws-account.yaml to every account listed in
+# environment-accounts/accounts.yaml, so a change to the `deploy`, `dev` or `admin` role
+# reaches the accounts when it is merged. The main account's own copy of the stack is
+# not touched: a role cannot safely update its own policy while it is the one deploying.
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "environment-accounts/bootstrap-aws-account.yaml"
+      - "environment-accounts/accounts.yaml"
+      - ".github/workflows/environment-accounts-config.yaml"
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  contents: read
+
+# One account at a time, and a run waits for the one before it.
+concurrency:
+  group: environment-accounts-config
+  cancel-in-progress: false
+
+jobs:
+  accounts:
+    name: List the accounts
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.list.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read accounts.yaml
+        id: list
+        run: |
+          set -euo pipefail
+          matrix=$(yq -o=json -I=0 '{"include": .accounts}' environment-accounts/accounts.yaml)
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+
+  apply:
+    name: Apply to ${{ matrix.name }}
+    needs: [accounts]
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.accounts.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # The main account's `deploy` role, through the repository's OIDC trust.
+      - name: Assume the deploy role in the main account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::124920735437:role/deploy
+
+      # The environment account's `admin` role rather than its `deploy` role: this
+      # stack is what defines `deploy`, and a role should not update itself mid-run.
+      - name: Assume the admin role in the environment account
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: us-east-1
+          role-to-assume: arn:aws:iam::${{ matrix.accountId }}:role/admin
+          role-chaining: true
+
+      - name: Apply the bootstrap stack
+        env:
+          ACCOUNT_ID: ${{ matrix.accountId }}
+          REPOSITORY: ${{ matrix.repository }}
+        run: |
+          set -euo pipefail
+          aws sts get-caller-identity --query Arn --output text
+          aws cloudformation deploy \
+            --template-file environment-accounts/bootstrap-aws-account.yaml \
+            --stack-name bootstrap-aws-account \
+            --parameter-overrides RepositoryName="$REPOSITORY" \
+            --no-fail-on-empty-changeset \
+            --capabilities CAPABILITY_NAMED_IAM

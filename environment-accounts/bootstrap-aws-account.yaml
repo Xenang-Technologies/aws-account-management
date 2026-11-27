@@ -253,6 +253,16 @@ Resources:
                             "Action": ["cloudwatch:*"],
                             "Resource": "*",
                         },
+                        {
+                            # In the main account this is what lets the `deploy` role apply
+                            # this template to the environment accounts, through their
+                            # `admin` roles (.github/workflows/environment-accounts-config.yaml).
+                            # Those roles trust the main account only, so the statement does
+                            # nothing in an environment account.
+                            "Effect": "Allow",
+                            "Action": ["sts:AssumeRole"],
+                            "Resource": "arn:aws:iam::*:role/admin",
+                        },
                     ]
 
             Roles:

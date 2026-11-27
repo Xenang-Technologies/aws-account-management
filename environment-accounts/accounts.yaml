@@ -1,0 +1,14 @@
+# The environment accounts whose `bootstrap-aws-account` stack is applied from
+# bootstrap-aws-account.yaml on every merge to `main`
+# (.github/workflows/environment-accounts-config.yaml).
+#
+#   name        a label for the run
+#   accountId   the AWS account id (quoted)
+#   repository  the project repository whose GitHub Actions may assume the account's
+#               `deploy` role, without the organization
+#
+# Add an account here after bootstrapping it by hand (environment-accounts/README.md).
+accounts:
+  - name: Pivot dev
+    accountId: "246152664877"
+    repository: pivotpay

@@ -8,6 +8,7 @@ Configuration for Xenang Technologies' AWS accounts: the main account, which hol
   * CloudFormation templates for configuring the main AWS account. They are applied by GitHub Actions on every commit to `main`.
 * /environment-accounts
   * Boilerplate for bootstrapping a new AWS account for a project environment. See [environment-accounts/README.md](environment-accounts/README.md).
+    * `accounts.yaml` lists the accounts that changes to `bootstrap-aws-account.yaml` are applied to automatically on every commit to `main`.
 
 # Managing users
 IAM users and groups are configured with CloudFormation in `account-configuration/main-account.yaml`. Users can be added to these groups:
