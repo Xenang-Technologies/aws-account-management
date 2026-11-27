@@ -64,6 +64,9 @@ jobs:
           aws-region: us-east-1
           role-to-assume: arn:aws:iam::${{ matrix.accountId }}:role/admin
           role-chaining: true
+          # Session tags need sts:TagSession in this role's policy and in the target's trust
+          # policy, and nothing here uses them, so they are not sent.
+          role-skip-session-tagging: true
 
       - name: Apply the bootstrap stack
         env:
