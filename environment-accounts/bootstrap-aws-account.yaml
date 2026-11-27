@@ -254,6 +254,12 @@ Resources:
                             "Resource": "*",
                         },
                         {
+                            # The environment's Redis (ElastiCache for Redis).
+                            "Effect": "Allow",
+                            "Action": ["elasticache:*"],
+                            "Resource": "*",
+                        },
+                        {
                             # In the main account this is what lets the `deploy` role apply
                             # this template to the environment accounts, through their
                             # `admin` roles (.github/workflows/environment-accounts-config.yaml).
