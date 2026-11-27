@@ -79,6 +79,9 @@ Resources:
                                     "iam:UpdateInstanceProfile",
                                     "iam:TagRole",
                                     "iam:UntagRole",
+                                    "iam:GetRolePolicy",
+                                    "iam:ListRolePolicies",
+                                    "iam:ListAttachedRolePolicies",
                                     "iam:GetUser",
                                     "iam:TagUser",
                                     "iam:UntagUser",
@@ -215,6 +218,50 @@ Resources:
                             "Effect": "Allow",
                             "Action": ["wafv2:*"],
                             "Resource": "*",
+                        },
+                        {
+                            # Key management only: the deploy role creates, tags and
+                            # schedules the deletion of keys, but cannot use them to
+                            # encrypt, decrypt or sign.
+                            "Effect": "Allow",
+                            "Action":
+                                [
+                                    "kms:CreateKey",
+                                    "kms:DescribeKey",
+                                    "kms:ListKeys",
+                                    "kms:GetKeyPolicy",
+                                    "kms:PutKeyPolicy",
+                                    "kms:TagResource",
+                                    "kms:UntagResource",
+                                    "kms:ListResourceTags",
+                                    "kms:EnableKey",
+                                    "kms:DisableKey",
+                                    "kms:EnableKeyRotation",
+                                    "kms:DisableKeyRotation",
+                                    "kms:GetKeyRotationStatus",
+                                    "kms:CreateAlias",
+                                    "kms:UpdateAlias",
+                                    "kms:DeleteAlias",
+                                    "kms:ListAliases",
+                                    "kms:ScheduleKeyDeletion",
+                                    "kms:CancelKeyDeletion",
+                                ],
+                            "Resource": "*",
+                        },
+                        {
+                            "Effect": "Allow",
+                            "Action": ["cloudwatch:*"],
+                            "Resource": "*",
+                        },
+                        {
+                            # In the main account this is what lets the `deploy` role apply
+                            # this template to the environment accounts, through their
+                            # `admin` roles (.github/workflows/environment-accounts-config.yaml).
+                            # Those roles trust the main account only, so the statement does
+                            # nothing in an environment account.
+                            "Effect": "Allow",
+                            "Action": ["sts:AssumeRole"],
+                            "Resource": "arn:aws:iam::*:role/admin",
                         },
                     ]
 

@@ -20,6 +20,7 @@ New accounts are created from the main account (124920735437), which is the mana
    * `OIDCAudience`: `sts.amazonaws.com` (default)
 
    Acknowledge that the stack creates IAM resources and create it.
+1. Add the account to [accounts.yaml](accounts.yaml) with its id and the project repository. From now on every merge to `main` that changes `bootstrap-aws-account.yaml` is applied to the account by `.github/workflows/environment-accounts-config.yaml`, so this manual stack only has to be created once.
 1. Update `cd/environments.yaml` in the project repo to include this new environment and set its account id.
 1. Add the new account id and its email address to the [README.md](../README.md#current-aws-accounts) in this repo.
 1. [Activate access to the Billing and Cost Management console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/control-access-billing.html#ControllingAccessWebsite-Activate).
@@ -27,6 +28,11 @@ New accounts are created from the main account (124920735437), which is the mana
 The bootstrap template creates these resources in the account:
 * A GitHub OIDC provider and the `deploy` role, which GitHub Actions in the project repository can assume. It has permissions to deploy the entire environment into the account. Both the classic (`repo:<org>/<repo>:...`) and immutable (`repo:<org>@<id>/<repo>@<id>:...`) OIDC subject formats are accepted.
 * The `dev` and `admin` roles, which users in the main account can assume.
+
+# Changing the roles
+Edit `bootstrap-aws-account.yaml` and merge it to `main`. The `Environment Accounts Config` workflow applies it to every account in [accounts.yaml](accounts.yaml), one at a time: it assumes the main account's `deploy` role, then the `admin` role in the environment account (the stack defines `deploy`, so `deploy` does not update itself), and runs `aws cloudformation deploy` on the `bootstrap-aws-account` stack.
+
+The main account's own `bootstrap-aws-account` stack is not in `accounts.yaml`, and is updated by hand (CloudFormation → the stack → Update → Replace current template, same parameters, acknowledge the IAM capability). Do that once when the template first gains the `sts:AssumeRole` statement that lets the main account's `deploy` role assume the environment accounts' `admin` roles, and again whenever a change to the template is meant for the main account too.
 
 # Post bootstrapping setup
 After performing the above process, users in the main account's `devs` and `admins` groups can switch to the `dev` role in the account, and GitHub Actions can assume the `deploy` role.
