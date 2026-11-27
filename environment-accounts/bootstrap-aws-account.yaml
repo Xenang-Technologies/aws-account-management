@@ -359,7 +359,14 @@ Resources:
             {"Effect":"Allow","Action":["cloudformation:*"],"Resource":"*"},
             {"Effect":"Allow","Action":["ce:*"],"Resource":"*"},
             {"Effect":"Allow", "Action":["aws-portal:ViewBilling", "aws-portal:ViewUsage"], "Resource": "*"},
-            {"Effect":"Allow","Action":["elasticfilesystem:*"],"Resource":"*"}
+            {"Effect":"Allow","Action":["elasticfilesystem:*"],"Resource":"*"},
+            {"Effect":"Allow","Action":[
+              "cloudtrail:LookupEvents",
+              "cloudtrail:DescribeTrails",
+              "cloudtrail:GetTrailStatus",
+              "cloudtrail:ListTrails",
+              "cloudtrail:GetEventSelectors"
+            ],"Resource":"*"}
 
           ]
 
